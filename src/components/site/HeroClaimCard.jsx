@@ -42,7 +42,11 @@ export default function HeroClaimCard() {
   const progress = ((step + 1) / HERO_STEPS.length) * 100;
 
   return (
-    <div className="rounded-3xl bg-white/95 p-6 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl sm:p-7">
+    <div className="relative overflow-hidden rounded-3xl bg-white/95 p-6 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl sm:p-7">
+      {/* periodic shine sweep */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+        <div className="absolute top-0 h-full w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer-sweep" />
+      </div>
       {/* header */}
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
