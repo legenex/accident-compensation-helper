@@ -18,10 +18,10 @@ export default function PublicNav() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50">
-        <div className="glass border-b border-border/60">
+        <div className="bg-navy">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
             <Link to="/" className="flex items-center" aria-label="Accident Compensation Helper home">
-              <Logo />
+              <Logo variant="light" />
             </Link>
             <nav className="hidden items-center gap-1 md:flex">
               {links.map((l) => (
@@ -31,8 +31,8 @@ export default function PublicNav() {
                   end={l.to === "/"}
                   className={({ isActive }) =>
                     cn(
-                      "rounded-lg px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
-                      isActive && "text-foreground"
+                      "border-b-[3px] border-transparent px-3.5 py-2 text-sm font-medium text-white/75 transition-colors hover:text-white",
+                      isActive && "border-accent text-white"
                     )
                   }
                 >
@@ -46,7 +46,7 @@ export default function PublicNav() {
               </Button>
             </div>
             <button
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground md:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-lg text-white md:hidden"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
             >
@@ -58,11 +58,11 @@ export default function PublicNav() {
 
       {open && (
         <div className="fixed inset-0 z-[70] md:hidden">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-2xl" onClick={() => setOpen(false)} />
-          <div className="relative flex h-full flex-col px-6 pt-8">
+          <div className="absolute inset-0 bg-navy/80 backdrop-blur-2xl" onClick={() => setOpen(false)} />
+          <div className="relative flex h-full flex-col bg-navy px-6 pt-8">
             <div className="flex items-center justify-between">
-              <Logo />
-              <button onClick={() => setOpen(false)} className="flex h-10 w-10 items-center justify-center rounded-lg" aria-label="Close menu">
+              <Logo variant="light" />
+              <button onClick={() => setOpen(false)} className="flex h-10 w-10 items-center justify-center rounded-lg text-white" aria-label="Close menu">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -72,7 +72,7 @@ export default function PublicNav() {
                   key={l.label}
                   to={l.to}
                   onClick={() => setOpen(false)}
-                  className="font-heading text-5xl font-extrabold tracking-tight text-foreground/80 transition-colors hover:text-primary"
+                  className="font-heading text-5xl font-extrabold tracking-tight text-white/80 transition-colors hover:text-primary"
                   style={{ animationDelay: `${i * 40}ms` }}
                 >
                   {l.label}
