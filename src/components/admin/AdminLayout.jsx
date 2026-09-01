@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Link, Outlet, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, Mail, Star, Scale, LogOut, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Mail, Star, Scale, Settings, ShieldCheck, FileCheck, LogOut, ExternalLink } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +11,9 @@ const nav = [
   { to: "/admin/messages", label: "Messages", icon: Mail },
   { to: "/admin/testimonials", label: "Testimonials", icon: Star },
   { to: "/admin/attorneys", label: "Attorneys", icon: Scale },
+  { to: "/admin/privacy-requests", label: "Privacy Requests", icon: ShieldCheck },
+  { to: "/admin/consent-records", label: "Consent Records", icon: FileCheck },
+  { to: "/admin/settings", label: "Site Settings", icon: Settings },
 ];
 
 export default function AdminLayout() {

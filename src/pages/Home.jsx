@@ -1,28 +1,39 @@
 import React from "react";
 import Hero from "@/components/site/sections/Hero";
-import Services from "@/components/site/sections/Services";
+import TrustStrip from "@/components/site/sections/TrustStrip";
+import AccidentTypes from "@/components/site/sections/AccidentTypes";
+import ImmediateHelp from "@/components/site/sections/ImmediateHelp";
+import HowItWorks from "@/components/site/sections/HowItWorks";
+import CompensationInfo from "@/components/site/sections/CompensationInfo";
+import WhyUse from "@/components/site/sections/WhyUse";
+import AttorneyConnection from "@/components/site/sections/AttorneyConnection";
 import Testimonials from "@/components/site/sections/Testimonials";
-import WhoWeHelp from "@/components/site/sections/WhoWeHelp";
-import BeforeAfter from "@/components/site/sections/BeforeAfter";
-import Process from "@/components/site/sections/Process";
-import WhyEasy from "@/components/site/sections/WhyEasy";
-import Guarantee from "@/components/site/sections/Guarantee";
-import About from "@/components/site/sections/About";
+import ResourcesPreview from "@/components/site/sections/ResourcesPreview";
 import Faq from "@/components/site/sections/Faq";
+import FinalCTA from "@/components/site/sections/FinalCTA";
+import Meta from "@/components/site/Meta";
 
 export default function Home() {
   return (
     <>
+      <Meta
+        title="Accident Compensation Helper — Free Claim Check in 2 Minutes"
+        description="Answer a few questions about your accident and find out if you may qualify for compensation. Free, confidential, and no obligation. We are not a law firm."
+        canonical="/"
+        image="https://media.base44.com/images/public/6a9667f0d469f05277f69ab4/f5d909a06_generated_image.png"
+      />
       <Hero />
-      <Services />
+      <TrustStrip />
+      <AccidentTypes />
+      <ImmediateHelp />
+      <HowItWorks />
+      <CompensationInfo />
+      <WhyUse />
+      <AttorneyConnection />
       <Testimonials />
-      <WhoWeHelp />
-      <BeforeAfter />
-      <Process />
-      <WhyEasy />
-      <Guarantee />
-      <About />
+      <ResourcesPreview />
       <Faq />
+      <FinalCTA />
     </>
   );
 }

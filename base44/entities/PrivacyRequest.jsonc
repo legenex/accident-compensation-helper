@@ -1,0 +1,65 @@
+{
+  "name": "PrivacyRequest",
+  "type": "object",
+  "properties": {
+    "request_type": {
+      "type": "string",
+      "enum": [
+        "Access",
+        "Correction",
+        "Deletion",
+        "OptOutSaleSharing",
+        "OptOutTargetedAdvertising",
+        "Appeal"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "New",
+        "In Review",
+        "Completed",
+        "Denied"
+      ],
+      "default": "New"
+    }
+  },
+  "required": [
+    "request_type",
+    "email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

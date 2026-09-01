@@ -1,0 +1,91 @@
+{
+  "name": "ConsentRecord",
+  "type": "object",
+  "properties": {
+    "consent_text": {
+      "type": "string"
+    },
+    "consent_version": {
+      "type": "string"
+    },
+    "consented_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "page_url": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Phone",
+          "SMS",
+          "Email"
+        ]
+      }
+    },
+    "submission_source": {
+      "type": "string"
+    },
+    "utm_source": {
+      "type": "string"
+    },
+    "utm_medium": {
+      "type": "string"
+    },
+    "utm_campaign": {
+      "type": "string"
+    },
+    "utm_content": {
+      "type": "string"
+    },
+    "utm_term": {
+      "type": "string"
+    },
+    "gclid": {
+      "type": "string"
+    },
+    "fbclid": {
+      "type": "string"
+    },
+    "ttclid": {
+      "type": "string"
+    },
+    "referrer": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "consent_text",
+    "session_id"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

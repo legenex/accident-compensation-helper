@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /claim/result
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /privacy-choices
+
+Sitemap: https://serious-clear-claim-path.base44.app/sitemap.xml

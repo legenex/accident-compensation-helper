@@ -1,63 +1,48 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Users, Scale, BadgeDollarSign, HeartHandshake, ShieldCheck } from "lucide-react";
-
-const stats = [
-  { icon: Users, value: "10,000+", label: "People helped" },
-  { icon: Scale, value: "500+", label: "Vetted attorneys" },
-  { icon: BadgeDollarSign, value: "$0", label: "Upfront cost" },
-  { icon: HeartHandshake, value: "100%", label: "Commitment" },
-];
+import { Image } from "@/components/ui/image";
+import PageHero from "@/components/site/PageHero";
+import Meta from "@/components/site/Meta";
+import { IMAGES } from "@/lib/siteContent";
 
 export default function About() {
   return (
-    <div className="pt-16">
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-secondary/60 to-background" />
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">About us</p>
-          <h1 className="mt-5 font-heading text-5xl font-extrabold tracking-tight text-foreground sm:text-6xl">
-            We fight for the compensation you deserve
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Accident Compensation Helper was built to remove the confusion from the claims process. We give accident
-            victims a fast, free way to understand whether they have a case, and connect them with vetted attorneys who
-            work on a no win, no fee basis.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-border bg-card p-7 text-center shadow-lift">
-              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <s.icon className="h-6 w-6" />
-              </span>
-              <p className="mt-4 font-heading text-3xl font-extrabold text-foreground">{s.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-4xl px-6 py-16">
-        <div className="rounded-3xl border border-border bg-card p-10 shadow-lift">
-          <h2 className="font-heading text-3xl font-extrabold tracking-tight">Our mission</h2>
-          <p className="mt-5 text-lg text-muted-foreground">
-            After an accident, victims face mounting medical bills, lost income, and confusing insurance offers. We
-            believe everyone deserves clarity. Our free claim check gives you an honest estimate in minutes, and our
-            network of attorneys only gets paid when you win.
-          </p>
-          <div className="mt-8 flex items-center gap-2 text-sm text-muted-foreground">
-            <ShieldCheck className="h-4 w-4 text-primary" />
-            No win, no fee. No upfront costs. No obligation.
+    <>
+      <Meta title="About | Accident Compensation Helper" description="Accident Compensation Helper provides a free, confidential claim check and, if you choose, can help you request contact with a participating attorney. We are not a law firm." canonical="/about" />
+      <PageHero eyebrow="About" title="A simple place to start after an accident" subtitle="We help people understand whether their situation may be worth discussing with a participating personal injury attorney." crumbs={[{ label: "Home", to: "/" }, { label: "About" }]} />
+      <section className="mx-auto max-w-[1280px] px-6 py-16">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="overflow-hidden rounded-2xl shadow-float">
+            <Image src={IMAGES.attorneyConsultation} alt="A claims support professional speaking with a person in a modern office" className="block aspect-[4/3] w-full" fittingType="fill" focalPointX={0.5} focalPointY={0.4} />
           </div>
-          <Link to="/claim" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-white shadow-float transition-transform hover:scale-[1.02]">
-            Start Your Free Claim Check
-          </Link>
+          <div>
+            <h2 className="font-heading text-2xl font-bold text-foreground">What we do</h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed">Accident Compensation Helper offers a free, confidential claim check that asks about your accident, injuries, treatment, and location. We use your answers to provide an informational assessment of whether your situation may warrant further review.</p>
+            <p className="mt-4 text-muted-foreground leading-relaxed">If your answers suggest a conversation may be useful, you can choose to request contact. Your information may then be shared with participating attorneys or legal service providers who may review your situation.</p>
+          </div>
+        </div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          <div className="rounded-2xl bg-card p-7 shadow-lift ring-1 ring-softblue-border">
+            <h3 className="font-heading text-lg font-bold text-foreground">Not a law firm</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">Accident Compensation Helper is not a law firm and does not provide legal advice. Using this website does not create an attorney-client relationship.</p>
+          </div>
+          <div className="rounded-2xl bg-card p-7 shadow-lift ring-1 ring-softblue-border">
+            <h3 className="font-heading text-lg font-bold text-foreground">Your choice</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">You are never obligated to request contact or to hire an attorney. The claim check is free, and there is no obligation.</p>
+          </div>
+          <div className="rounded-2xl bg-card p-7 shadow-lift ring-1 ring-softblue-border">
+            <h3 className="font-heading text-lg font-bold text-foreground">Clear disclosures</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">We provide clear disclosures before you submit information, including how your information may be shared and how we may be compensated.</p>
+          </div>
+        </div>
+
+        <div className="mt-14 rounded-2xl bg-navy p-8 text-center text-white lg:p-12">
+          <h2 className="font-heading text-2xl font-bold sm:text-3xl">Ready to understand your next step?</h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/70">Take the free claim check. It takes about two minutes and there is no obligation.</p>
+          <Link to="/claim" className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-float transition-transform hover:scale-[1.02]">Start the free claim check</Link>
         </div>
       </section>
-    </div>
+    </>
   );
 }

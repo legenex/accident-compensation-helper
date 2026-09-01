@@ -17,6 +17,18 @@ module.exports = {
   				DEFAULT: 'hsl(var(--navy))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
+  			softblue: {
+  				DEFAULT: 'hsl(var(--softblue))',
+  				border: 'hsl(var(--softblue-border))'
+  			},
+  			success: {
+  				DEFAULT: 'hsl(var(--success))',
+  				foreground: 'hsl(var(--success-foreground))'
+  			},
+  			warning: {
+  				DEFAULT: 'hsl(var(--warning))',
+  				foreground: 'hsl(var(--warning-foreground))'
+  			},
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

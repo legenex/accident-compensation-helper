@@ -1,0 +1,81 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "legal_business_name": {
+      "type": "string"
+    },
+    "brand_name": {
+      "type": "string",
+      "default": "Accident Compensation Helper"
+    },
+    "support_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "support_phone": {
+      "type": "string"
+    },
+    "business_address": {
+      "type": "string"
+    },
+    "service_hours": {
+      "type": "string"
+    },
+    "states_served": {
+      "type": "string"
+    },
+    "contact_response_expectation": {
+      "type": "string"
+    },
+    "privacy_contact": {
+      "type": "string"
+    },
+    "legal_contact": {
+      "type": "string"
+    },
+    "phone_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_24_hour": {
+      "type": "boolean",
+      "default": false
+    },
+    "social_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "brand_name"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

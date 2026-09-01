@@ -1,122 +1,125 @@
 import React, { useState } from "react";
-import { Phone, Mail, MapPin, Send, Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, Send, ShieldCheck } from "lucide-react";
 import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import PageHero from "@/components/site/PageHero";
+import Meta from "@/components/site/Meta";
+import { useSiteSettings, getAttribution, getSessionId, trackEvent } from "@/lib/useSite";
+
+const CONSENT_VERSION = "2026-09";
 
 export default function Contact() {
-  const { toast } = useToast();
-  const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
-  const [saving, setSaving] = useState(false);
+  const settings = useSiteSettings();
+  const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "", consentPhone: false, consentSms: false, consentEmail: false });
+  const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const anyConsent = form.consentPhone || form.consentSms || form.consentEmail;
 
   const submit = async (e) => {
     e.preventDefault();
-    setSaving(true);
+    if (!form.name || !form.email || !form.message) { setError("Please complete the required fields."); return; }
+    if (!anyConsent) { setError("Please select at least one way we may contact you."); return; }
+    setSubmitting(true);
+    setError("");
     try {
-      await base44.entities.ContactMessage.create(form);
+      await base44.entities.ContactMessage.create({
+        name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message, status: "New",
+      });
+      const channels = [];
+      if (form.consentPhone) channels.push("Phone");
+      if (form.consentSms) channels.push("SMS");
+      if (form.consentEmail) channels.push("Email");
+      const attr = getAttribution();
+      const consentText = "I consent to be contacted by phone, SMS, and/or email about my request.";
+      await base44.entities.ConsentRecord.create({
+        consent_text: consentText,
+        consent_version: CONSENT_VERSION,
+        consented_at: new Date().toISOString(),
+        page_url: window.location.pathname,
+        session_id: getSessionId(),
+        channels,
+        submission_source: "contact",
+        utm_source: attr.utm_source, utm_medium: attr.utm_medium, utm_campaign: attr.utm_campaign,
+        utm_content: attr.utm_content, utm_term: attr.utm_term, gclid: attr.gclid, fbclid: attr.fbclid, ttclid: attr.ttclid,
+        referrer: attr.referrer,
+      });
+      trackEvent("contact_request", { source: "contact" });
       setDone(true);
-      toast({ title: "Message sent", description: "We'll be in touch shortly." });
-    } catch {
-      toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
-    } finally {
-      setSaving(false);
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
     }
+    setSubmitting(false);
   };
 
   return (
-    <div className="pt-16">
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-secondary/60 to-background" />
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Contact</p>
-          <h1 className="mt-5 font-heading text-5xl font-extrabold tracking-tight text-foreground sm:text-6xl">
-            We're here to help
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Have a question or want to talk through your situation? Reach out and our team will get back to you.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
-          <div className="space-y-4">
-            {[
-              { icon: Phone, label: "Call us", value: "1-800-CLAIM-HELP", href: "tel:18002534243" },
-              { icon: Mail, label: "Email us", value: "help@accidentcompensationhelper.com", href: "mailto:help@accidentcompensationhelper.com" },
-              { icon: MapPin, label: "Availability", value: "Available nationwide" },
-            ].map((c) => (
-              <a
-                key={c.label}
-                href={c.href || undefined}
-                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-lift transition-transform hover:-translate-y-0.5"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <c.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-xs text-muted-foreground">{c.label}</p>
-                  <p className="font-heading text-base font-bold text-foreground">{c.value}</p>
-                </div>
-              </a>
-            ))}
+    <>
+      <Meta title="Contact | Accident Compensation Helper" description="Get in touch with Accident Compensation Helper. We are not a law firm and do not provide legal advice." canonical="/contact" />
+      <PageHero eyebrow="Contact" title="Get in touch" subtitle="Send us a message and we will respond as we are able. For privacy requests, use our Privacy Choices page." crumbs={[{ label: "Home", to: "/" }, { label: "Contact" }]} />
+      <section className="mx-auto max-w-3xl px-6 py-16">
+        {done ? (
+          <div className="rounded-2xl bg-card p-10 text-center shadow-lift ring-1 ring-softblue-border">
+            <ShieldCheck className="mx-auto h-12 w-12 text-primary" />
+            <h2 className="mt-4 font-heading text-2xl font-bold text-foreground">Thank you</h2>
+            <p className="mt-2 text-muted-foreground">Your message has been received. We will respond as we are able.</p>
           </div>
-
-          <div className="rounded-3xl border border-border bg-card p-8 shadow-float">
-            {done ? (
-              <div className="flex h-full flex-col items-center justify-center py-12 text-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Check className="h-8 w-8" />
-                </span>
-                <h2 className="mt-6 font-heading text-2xl font-bold">Message sent</h2>
-                <p className="mt-2 text-muted-foreground">Thank you. Our team will reach out shortly.</p>
+        ) : (
+          <form onSubmit={submit} className="rounded-2xl bg-card p-8 shadow-lift ring-1 ring-softblue-border">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label className="text-sm font-medium text-foreground">Name *</label>
+                <input value={form.name} onChange={(e) => set("name", e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-softblue-border bg-card px-4 text-sm outline-none focus:ring-2 focus:ring-primary" />
               </div>
-            ) : (
-              <form onSubmit={submit} className="space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <Label className="text-muted-foreground">Name</Label>
-                    <Input required value={form.name} onChange={(e) => set("name", e.target.value)} className="mt-2 h-12 rounded-xl" />
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Email</Label>
-                    <Input required type="email" value={form.email} onChange={(e) => set("email", e.target.value)} className="mt-2 h-12 rounded-xl" />
-                  </div>
-                </div>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <Label className="text-muted-foreground">Phone</Label>
-                    <Input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className="mt-2 h-12 rounded-xl" />
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Subject</Label>
-                    <Input value={form.subject} onChange={(e) => set("subject", e.target.value)} className="mt-2 h-12 rounded-xl" />
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">Message</Label>
-                  <textarea
-                    required
-                    rows={5}
-                    value={form.message}
-                    onChange={(e) => set("message", e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-input bg-card px-4 py-3 text-foreground outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <Button type="submit" disabled={saving} className="w-full gap-2 rounded-full bg-primary py-6 text-base font-semibold shadow-float hover:bg-primary/90">
-                  {saving ? "Sending..." : "Send Message"}
-                  <Send className="h-4 w-4" />
-                </Button>
-              </form>
+              <div>
+                <label className="text-sm font-medium text-foreground">Email *</label>
+                <input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-softblue-border bg-card px-4 text-sm outline-none focus:ring-2 focus:ring-primary" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Phone</label>
+                <input type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-softblue-border bg-card px-4 text-sm outline-none focus:ring-2 focus:ring-primary" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Subject</label>
+                <input value={form.subject} onChange={(e) => set("subject", e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-softblue-border bg-card px-4 text-sm outline-none focus:ring-2 focus:ring-primary" />
+              </div>
+            </div>
+            <div className="mt-5">
+              <label className="text-sm font-medium text-foreground">Message *</label>
+              <textarea rows={5} value={form.message} onChange={(e) => set("message", e.target.value)} className="mt-1.5 w-full rounded-xl border border-softblue-border bg-card px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary" />
+            </div>
+
+            <div className="mt-6 rounded-xl bg-secondary/60 p-5">
+              <p className="text-sm font-semibold text-foreground">How may we contact you?</p>
+              <p className="mt-1 text-xs text-muted-foreground">Select at least one. Consent is not a condition of purchasing any service.</p>
+              <div className="mt-3 space-y-2">
+                <label className="flex items-start gap-3 text-sm text-foreground/90">
+                  <input type="checkbox" checked={form.consentPhone} onChange={(e) => set("consentPhone", e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-softblue-border text-primary focus:ring-primary" />
+                  Phone calls
+                </label>
+                <label className="flex items-start gap-3 text-sm text-foreground/90">
+                  <input type="checkbox" checked={form.consentSms} onChange={(e) => set("consentSms", e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-softblue-border text-primary focus:ring-primary" />
+                  SMS (message and data rates may apply; reply STOP to opt out)
+                </label>
+                <label className="flex items-start gap-3 text-sm text-foreground/90">
+                  <input type="checkbox" checked={form.consentEmail} onChange={(e) => set("consentEmail", e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-softblue-border text-primary focus:ring-primary" />
+                  Email
+                </label>
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">See our <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>, <Link to="/terms" className="text-primary hover:underline">Terms</Link>, <Link to="/communication-consent" className="text-primary hover:underline">Communication Consent</Link>, and <Link to="/sms-terms" className="text-primary hover:underline">SMS Terms</Link>.</p>
+            </div>
+
+            {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+            <button type="submit" disabled={submitting} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-float transition-transform hover:scale-[1.02] disabled:opacity-50">
+              {submitting ? "Sending..." : "Send message"} <Send className="h-4 w-4" />
+            </button>
+            {settings?.support_email && (
+              <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><Mail className="h-4 w-4 text-primary" /> {settings.support_email}</p>
             )}
-          </div>
-        </div>
+          </form>
+        )}
       </section>
-    </div>
+    </>
   );
 }
