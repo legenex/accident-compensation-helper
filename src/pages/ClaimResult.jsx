@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Phone, ArrowRight, Check, ShieldCheck } from "lucide-react";
-import { base44 } from "@/api/base44Client";
 import { formatCurrency } from "@/lib/claimEngine";
 import PublicNav from "@/components/site/PublicNav";
 
@@ -62,9 +61,6 @@ export default function ClaimResult() {
   const [data, setData] = useState(state);
 
   useEffect(() => {
-    if (!state && state?.estimateId) {
-      base44.entities.ClaimEstimate.get(state.estimateId).then(setData).catch(() => {});
-    }
     window.scrollTo(0, 0);
   }, []);
 
@@ -87,8 +83,8 @@ export default function ClaimResult() {
   const answers = data.answers || {};
   const tier = data.tier || (data.status === "Disqualified" ? "DQ" : "T3");
   const qualified = tier !== "DQ";
-  const low = est.range_low ?? est.range_low;
-  const high = est.range_high ?? est.range_high;
+  const low = est.range_low;
+  const high = est.range_high;
   const representedLow = est.represented_low;
   const representedHigh = est.represented_high;
 

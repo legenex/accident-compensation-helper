@@ -1,17 +1,42 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
-// Add page imports here
+import ProtectedRoute from '@/components/ProtectedRoute';
+
+// Auth pages
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
+
+// Public site
+import PublicLayout from '@/components/site/PublicLayout';
+import Home from '@/pages/Home';
+import About from '@/pages/About';
+import Contact from '@/pages/Contact';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import Terms from '@/pages/Terms';
+import AdvertisingDisclosure from '@/pages/AdvertisingDisclosure';
+import ClaimCheck from '@/pages/ClaimCheck';
+import ClaimResult from '@/pages/ClaimResult';
+
+// Admin
+import AdminLayout from '@/components/admin/AdminLayout';
+import Dashboard from '@/pages/admin/Dashboard';
+import Leads from '@/pages/admin/Leads';
+import Claims from '@/pages/admin/Claims';
+import Messages from '@/pages/admin/Messages';
+import Testimonials from '@/pages/admin/Testimonials';
+import Attorneys from '@/pages/admin/Attorneys';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -20,21 +45,49 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
       navigateToLogin();
       return null;
     }
   }
 
-  // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
+      {/* Auth */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+
+      {/* Public site */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/advertising" element={<AdvertisingDisclosure />} />
+      </Route>
+
+      {/* Claim engine */}
+      <Route path="/claim" element={<ClaimCheck />} />
+      <Route path="/claim/result" element={<ClaimResult />} />
+
+      {/* Admin */}
+      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/leads" element={<Leads />} />
+          <Route path="/admin/claims" element={<Claims />} />
+          <Route path="/admin/messages" element={<Messages />} />
+          <Route path="/admin/testimonials" element={<Testimonials />} />
+          <Route path="/admin/attorneys" element={<Attorneys />} />
+        </Route>
+      </Route>
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
@@ -42,7 +95,6 @@ const AuthenticatedApp = () => {
 
 
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
