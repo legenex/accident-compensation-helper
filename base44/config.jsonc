@@ -1,5 +1,5 @@
 {
-  "name": "Untitled",
+  "name": "Check My Claim",
   "site": {
     "installCommand": "npm install",
     "buildCommand": "npm run build",
