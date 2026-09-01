@@ -1,0 +1,141 @@
+{
+  "name": "ClaimEstimate",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Client-generated session id for resume and dedup."
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "accident_type": {
+      "type": "string"
+    },
+    "accident_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "state": {
+      "type": "string"
+    },
+    "zip_code": {
+      "type": "string"
+    },
+    "at_fault": {
+      "type": "string",
+      "enum": [
+        "Not at fault",
+        "Partly at fault",
+        "At fault",
+        "Unsure"
+      ]
+    },
+    "sought_treatment": {
+      "type": "string",
+      "enum": [
+        "Yes, immediately",
+        "Yes, later",
+        "No",
+        "Planning to"
+      ]
+    },
+    "injury_tier": {
+      "type": "string",
+      "enum": [
+        "Minor",
+        "Moderate",
+        "Serious",
+        "Severe"
+      ]
+    },
+    "medical_bills": {
+      "type": "number"
+    },
+    "lost_wages": {
+      "type": "number"
+    },
+    "economic_damages": {
+      "type": "number"
+    },
+    "non_econ_low": {
+      "type": "number"
+    },
+    "non_econ_high": {
+      "type": "number"
+    },
+    "range_low": {
+      "type": "number"
+    },
+    "range_high": {
+      "type": "number"
+    },
+    "represented_low": {
+      "type": "number"
+    },
+    "represented_high": {
+      "type": "number"
+    },
+    "is_opted_in": {
+      "type": "boolean",
+      "default": false
+    },
+    "opted_in_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Partial",
+        "Complete",
+        "Qualified",
+        "Disqualified"
+      ],
+      "default": "Partial"
+    },
+    "lead_id": {
+      "type": "string"
+    },
+    "utm_source": {
+      "type": "string"
+    },
+    "utm_medium": {
+      "type": "string"
+    },
+    "utm_campaign": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
