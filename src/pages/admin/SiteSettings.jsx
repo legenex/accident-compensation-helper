@@ -20,6 +20,7 @@ const empty = { brand_name: "Accident Compensation Helper", phone_enabled: false
 
 export default function SiteSettingsAdmin() {
   const [record, setRecord] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(empty);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -29,7 +30,8 @@ export default function SiteSettingsAdmin() {
       const rec = (r && r[0]) || null;
       setRecord(rec);
       setForm({ ...empty, ...(rec || {}) });
-    }).catch(() => { setRecord(null); setForm(empty); });
+    }).catch(() => { setRecord(null); setForm(empty); })
+      .finally(() => setLoading(false));
   }, []);
 
   const set = (k, v) => { setForm((f) => ({ ...f, [k]: v })); setSaved(false); };
@@ -45,7 +47,7 @@ export default function SiteSettingsAdmin() {
     setSaving(false);
   };
 
-  if (record === null) return <Loader />;
+  if (loading) return <Loader />;
 
   return (
     <div className="space-y-6">
