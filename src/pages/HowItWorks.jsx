@@ -12,7 +12,7 @@ export default function HowItWorks() {
       <PageHero eyebrow="How It Works" title="A clearer next step after an accident" subtitle="The claim check is free, confidential, and takes about two minutes. You decide whether to request contact with a participating attorney." crumbs={[{ label: "Home", to: "/" }, { label: "How It Works" }]} />
       <section className="mx-auto max-w-[1280px] px-6 py-16">
         <div className="space-y-10">
-          {HOW_IT_WORKS.map((s) => (
+          {HOW_IT_WOKS.map((s) => (
             <div key={s.step} className="flex gap-5">
               <div className="flex flex-col items-center">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-white shadow-float">{s.step}</span>
