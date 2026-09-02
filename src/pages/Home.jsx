@@ -20,7 +20,7 @@ export default function Home() {
         title="Accident Compensation Helper — Free Claim Check in 2 Minutes"
         description="Answer a few questions about your accident and find out if you may qualify for compensation. Free, confidential, and no obligation. We are not a law firm."
         canonical="/"
-        image="https://media.base44.com/images/public/6a9667f0d469f05277f69ab4/f5d909a06_generated_image.png"
+        image="https://media.base44.com/images/public/6a9667f0d469f05277f6ab4/f5d909a06_generated_image.png"
       />
       <Hero />
       <TrustStrip />
