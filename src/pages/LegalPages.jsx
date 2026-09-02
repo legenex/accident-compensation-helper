@@ -9,20 +9,20 @@ import {
 
 const wrap = (content, canonical, noindex) => () => (
   <>
-    <Meta title={`${content.title} | Accident Compensation Helper`} description={content.subtitle} canonical={canonical} noindex={noindex} />
+    <Meta title={`${content.title} | Accident Compe Helper`} description={content.subtitle} canonical={canonical} noindex={noindex} />
     <LegalPage {...content} crumbs={[{ label: "Home", to: "/" }, { label: content.title }]} />
   </>
 );
 
-export const Privacy = wrap(PRIVACY, "/privacy");
-export const Terms = wrap(TERMS, "/terms");
-export const AdvertisingDisclosure = wrap(ADVERTISING_DISCLOSURE, "/advertising-disclosure");
-export const CommunicationConsent = wrap(COMMUNICATION_CONSENT, "/communication-consent");
-export const SmsTerms = wrap(SMS_TERMS, "/sms-terms");
-export const CookiePolicy = wrap(COOKIE_POLICY, "/cookie-policy");
-export const Accessibility = wrap(ACCESSIBILITY, "/accessibility");
-export const ResultsDisclaimer = wrap(RESULTS_DISCLAIMER, "/results-disclaimer");
-export const HowWeMatch = wrap(HOW_WE_MATCH, "/how-we-match");
-export const OurNetwork = wrap(OUR_NETWORK, "/our-network");
+export const Privacy = wrap(PRIVACY, "/priacy");
+export const Terms = wrap(TERMS, "/tms");
+export const AdvertisingDisclosure = wrap(ADVERTISING_DISCLOSURE, "/advertisidisclosure");
+export const CommunicationConsent = wrap(COMMUNICATION_CONSENT, "/communioonsent");
+export const SmsTerms = wrap(SMS_TERMS, "/sms-tms");
+export const CookiePolicy = wrap(COOKIE_POLICY, "/cooie-policy");
+export const Accessibility = wrap(ACCESSIBILITY, "/ibility");
+export const ResultsDisclaimer = wrap(RESULTS_DISCLAIMER, "/resuclaimer");
+export const HowWeMatch = wrap(HOW_WE_MATCH, "/how-match");
+export const OurNetwork = wrap(OUR_NETWORK, "/our-ork");
 export const PartnerList = wrap(PARTNER_LIST, "/partner-list");
-export const EditorialPolicy = wrap(EDITORIAL_POLICY, "/editorial-policy");
+export const EditorialPolicy = wrap(EDITORIAL_POLICY, "/editopolicy");
