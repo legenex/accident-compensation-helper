@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
-import PageHero from "@/components/site/PageHero";
-import Meta from "@/components/site/Meta";
+import PageHero from "@/compone/site/PageHero";
+import Meta from "@/compnts/site/Meta";
 import { ACCIDENT_TYPES } from "@/lib/siteContent";
 
 function Section({ title, items }) {
@@ -31,7 +31,7 @@ export default function AccidentTypePage() {
   if (!t) return <Navigate to="/accident-types" replace />;
 
   const faqJson = {
-    "@context": "https://schema.org",
+    "@context": "https://scma.org",
     "@type": "FAQPage",
     mainEntity: t.faq.map((f) => ({
       "@type": "Question",
